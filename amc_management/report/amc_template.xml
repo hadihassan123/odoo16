@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="amc_management.act_report_id_customers">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <!-- Your custom CSS styles -->
+                        <style>
+                            .center {
+                                text-align: center;
+                            }
+
+                            .row {
+                                display: flex;
+                                justify-content: space-between;
+                            }
+
+                            .col-xs-4 {
+                                width: 30%; /* Adjust the width as needed */
+                            }
+
+                            .col-xs-4.center {
+                                width: 30%; /* Adjust the width as needed */
+                                text-align: center;
+                                align-items: center;
+                            }
+
+                            .col-xs-4.align-right {
+                                width: 30%; /* Adjust the width as needed */
+                                text-align: right;
+                                align-items: right;
+                            }
+                        </style>
+
+                        <div class="center">
+                            <h1>AMC DETAILS</h1>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+
+                        <!-- Fields aligned on left, middle, and right -->
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <p><strong>Ref ID:</strong> <span t-field="o.name"/></p>
+                                <p><strong>Name:</strong> <span t-field="o.partner_id"/></p>
+                                <p><strong>PO Date:</strong> <span t-field="o.po_date"/></p>
+                                <p><strong>Location:</strong> <span t-field="o.location"/></p>
+                                <p><strong>Area of Support:</strong> <span t-field="o.area_of_support"/></p>
+                            </div>
+                            <div class="col-xs-4 center">
+                                <p><strong>Start Date:</strong> <span t-field="o.start_date"/></p>
+                                <p><strong>End Date:</strong> <span t-field="o.end_Date"/></p>
+                                <p><strong>Service:</strong> <span t-field="o.service"/></p>
+
+                                <p><strong>Penalty:</strong> <span t-field="o.penalty_applicable"/></p>
+
+                            </div>
+                            <div class="col-xs-4 align-right">
+                                <p><strong>YPMV:</strong> <span t-field="o.yearly_visit"/></p>
+                                <p><strong>MCV:</strong> <span t-field="o.monthly_visit"/></p>
+                                <p><strong>Vendor:</strong> <span t-field="o.vendor"/></p>
+                                <p><strong>Contract Type:</strong> <span t-field="o.con_type"/></p>
+                                <p><strong>Contract Name:</strong> <span t-field="o.contract_test"/></p>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+
+                        <br/>
+                        <br/>
+
+
+
+<!--                            &lt;!&ndash; Improved Table Styling &ndash;&gt;-->
+                        <div style="margin-top: 50px;"></div>
+                        <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Asset</th>
+                                        <th>Internal Reference</th>
+                                        <th>Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="sale_price_count" t-value="0"/>
+                                    <t t-foreach="o.product_ids" t-as="line">
+                                        <t t-set="sale_price_count" t-value="sale_price_count + 1"/>
+                                        <tr>
+                                            <td><p t-field="line.product_id"/></td>
+                                            <td><p t-field="line.internal_reference"/></td>
+                                            <td><p t-field="line.sale_price"/></td>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="2"><strong>Total Assets</strong></td>
+                                        <td><p t-esc="sale_price_count"/></td>
+                                    </tr>
+                                </tbody>
+                        </table>
+
+
+<!--                         Footer Section-->
+                        <div class="footer">
+                            <p><t t-out="user.company_name or ''"/></p>
+                            <p>
+                                <t t-out="user.work_phone or ''"/> |
+                                <a t-att-href="'mailto:%s' % user.work_email" t-out="user.work_email or ''">
+                                    <t t-out="user.work_email or ''"/>
+                                </a> |
+                                <a t-att-href="'%s' % user.company_id.website" t-out="user.company_id.website or ''">
+                                    <t t-out="user.company_id.website or ''"/>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
+
+<!--<odoo>-->
+<!--    <template id="amc_management.act_report_id_customers">-->
+<!--        <t t-call="web.html_container">-->
+<!--            <t t-foreach="docs" t-as="o">-->
+<!--                <t t-call="web.external_layout">-->
+<!--                    <div class="page">-->
+<!--                        <h1>Amc Details</h1>-->
+<!--                        <strong>Ref ID:</strong><p t-field="o.name"/>-->
+<!--                        <strong>Name:</strong> <p t-field="o.partner_id"/>-->
+<!--                        <strong>start Date:</strong><p t-field="o.start_date"/>-->
+<!--                        <strong>End Date:</strong><p t-field="o.end_Date"/>-->
+<!--                        <strong>Service:</strong><p t-field="o.service"/>-->
+<!--                        <strong>Location:</strong><p t-field="o.location"/>-->
+
+<!--                        &lt;!&ndash; Include other fields as needed &ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <t t-if="o.product_ids">-->
+<!--                        <span>Appointment Details</span>-->
+<!--                        <table class="table table-sm o_main_table" name="appointment">-->
+<!--                            <thead>-->
+<!--                                <tr>-->
+<!--                                    <th name="th_product_id" class="text-start">-->
+<!--                                        <span>Asset</span>-->
+<!--                                    </th>-->
+<!--                                    <th name="th_internal_reference" class="text-start">-->
+<!--                                        <span>Internal Reference</span>-->
+<!--                                    </th>-->
+<!--                                    <th name="th_sale_price" class="text-start">-->
+<!--                                        <span>Cost</span>-->
+<!--                                    </th>-->
+<!--                                </tr>-->
+<!--                            </thead>-->
+<!--                            <t t-set="sale_price_count" t-value="0"/>-->
+<!--                            <t t-foreach="o.product_ids" t-as="line">-->
+<!--                                <t t-set="sale_price_count" t-value="sale_price_count + 1"/>-->
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <span t-field="line.product_id"/>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <span t-field="line.internal_reference"/>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <span t-field="line.sale_price"/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                            </t>-->
+<!--                            <tr>-->
+<!--                                <td colspan="2">-->
+<!--                                    <strong>Total Assets</strong>-->
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    <t t-esc="sale_price_count"/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+<!--                    </t>-->
+
+<!--                </t>-->
+<!--            </t>-->
+<!--        </t>-->
+<!--    </template>-->
+<!--</odoo>-->
+<!--<odoo>-->
+<!--    <template id="amc_management.act_report_id_customers">-->
+<!--        <t t-call="web.html_container">-->
+<!--            <t t-foreach="docs" t-as="o">-->
+<!--                <t t-call="web.external_layout">-->
+<!--                    <div class="page">-->
+<!--                        <div class="oe_structure"/>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-xs-8">-->
+<!--                                <table class="table table-condensed" style="border: 3px solid black !important;">-->
+<!--                                    <tr>-->
+<!--                                        <td width="60%">-->
+<!--                                            <table>-->
+<!--                                                <tr>-->
+<!--                                                    <td colspan="3" class="text-center">-->
+<!--                                                        <span t-field="o.name"/>-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                                <tr>-->
+<!--                                                    <td>-->
+<!--                                                        <span>-->
+<!--                                                            <strong>Age:</strong>-->
+<!--                                                        </span>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <span>:</span>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <span t-field="o.name"/>-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                                <tr>-->
+<!--                                                    <td>-->
+<!--                                                        <span>-->
+<!--                                                            <strong>Reference:</strong>-->
+<!--                                                        </span>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <span>:</span>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <span t-field="o.partner_id"/>-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                            </table>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </table>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <br/>-->
+<!--                        <t t-if="o.appointment_ids">-->
+<!--                            <span>Appointment Details</span>-->
+<!--                            <table class="table table-sm o_main_table" name="appointment">-->
+<!--                                <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th name="th_reference" class="text-start">-->
+<!--                                            <span>Reference</span>-->
+<!--                                        </th>-->
+<!--                                        <th name="th_age" class="text-start">-->
+<!--                                            <span>Age</span>-->
+<!--                                        </th>-->
+<!--                                        <th name="th_doctor" class="text-start">-->
+<!--                                            <span>Doctor</span>-->
+<!--                                        </th>-->
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <t t-set="appointment_count" t-value="0"/>-->
+<!--                                <t t-foreach="o.appointment_ids" t-as="line">-->
+<!--                                    <t t-set="appointment_count" t-value="appointment_count + 1"/>-->
+<!--                                    <tr>-->
+<!--                                        <td>-->
+<!--                                            <span t-field="line.name"/>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <span t-field="line.age"/>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <span t-field="line.doctor_id.doctor_name"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </t>-->
+<!--                                <tr>-->
+<!--                                    <td colspan="2">-->
+<!--                                        <strong>Total Appointments</strong>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <t t-esc="appointment_count"/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                            </table>-->
+<!--                        </t>-->
+<!--                    </div>-->
+<!--                </t>-->
+<!--            </t>-->
+<!--        </t>-->
+<!--    </template>-->
+<!--</odoo>-->

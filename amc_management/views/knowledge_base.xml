@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+     <record id="maintenance_knowledge_base_view_form" model="ir.ui.view">
+        <field name="name">maintenance.knowledge.base.view.form</field>
+        <field name="model">maintenance.knowledge.base</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="amc_category_id" widget="selection"/>
+                        <field name="domain_id" widget="selection"/>
+                        <field name="device_type_id" widget="selection" />
+<!--                        <field name="subject_des" />-->
+<!--                        <field name="resolved_remarks"/>-->
+
+<!--                        <field name="test_ids"/>-->
+
+
+<!--                        <field name="test_ids"  widget="many2many"  domain="[('device_type_id', '=', device_type_id), ('domain_id', '=', domain_id)]">-->
+<!--                            <tree>-->
+<!--                                <field name="amc_category_id"/>-->
+<!--                                <field name="domain_id" />-->
+<!--                                <field name="device_type_id"  />-->
+<!--                                <field name="subject_des"/>-->
+<!--                                <field name="description"/>-->
+<!--                            </tree>-->
+<!--                        </field>-->
+                    </group>
+                     <notebook>
+                            <page string="Product Records">
+                                <field name="product_records" mode="tree" readonly="1"  add="false"
+                                       edit="false" delete="false">
+                                    <tree>
+<!--                                        <field name="amc_category_id"/>-->
+<!--                                        <field name="domain_id"/>-->
+<!--                                        <field name="device_type_id"/>-->
+                                        <field name="subject_des"/>
+                                        <field name="description"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="maintenance_knowledge_base_view_tree" model="ir.ui.view">
+        <field name="name">maintenance.knowledge.base.view.tree</field>
+        <field name="model">maintenance.knowledge.base</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="customer_id"/>
+                <field name="amc_category_id"/>
+                <field name="domain_id"/>
+                <field name="device_type_id"/>
+                <field name="subject_des"/>
+                <field name="resolved_remarks"/>
+            </tree>
+        </field>
+    </record>
+    <data>
+
+            <record id="action_knowledge_base" model="ir.actions.act_window">
+                <field name="name">FAQ</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">maintenance.knowledge.base</field>
+                <field name="view_mode">tree,form</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Create your first Knowledge Base Entry
+                    </p>
+                </field>
+
+
+            </record>
+
+            <menuitem id="menu_knowledge_base"
+                      name="FAQ"
+                      parent="menu_amc_details"
+                      action="action_knowledge_base"
+                      sequence="25"/>
+
+    </data>
+    <!-- Add more views as needed, e.g., form view, search view -->
+</odoo>

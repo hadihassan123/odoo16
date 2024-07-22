@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+         <record id="sequence_amc_customer" model="ir.sequence">
+            <field name="name">amc sequence</field>
+            <field name="code">amc.customers</field>
+            <field name="prefix">AMC/%(year)s-%(month)s-%(day)s/</field>
+            <field name="padding">4</field>
+         </record>
+
+<!--         <record id="sequence_amc_customers" model="ir.sequence">-->
+<!--            <field name="name">amc sequence</field>-->
+<!--            <field name="code">amc.customer</field>-->
+<!--            <field name="prefix">AMC</field>-->
+<!--            <field name="padding">4</field>-->
+<!--         </record>-->
+
+         <record id="sequence_amc_customers" model="ir.sequence">
+            <field name="name">maintenance sequence</field>
+            <field name="code">maintenance.customers</field>
+            <field name="prefix">TN</field>
+            <field name="padding">5</field>
+         </record>
+
+         <record id="sequence_amc_customers" model="ir.sequence">
+            <field name="name">maintenance sequence</field>
+            <field name="code">maintenance.customers</field>
+            <field name="prefix">TN</field>
+            <field name="padding">5</field>
+         </record>
+         <record id="sequence_upload_asset" model="ir.sequence">
+            <field name="name">upload asset</field>
+            <field name="code">upload.asset</field>
+            <field name="prefix">UP</field>
+            <field name="padding">5</field>
+         </record>
+         <record id="sequence_knowledge_base_product" model="ir.sequence">
+            <field name="name">base product</field>
+            <field name="code">maintenance.knowledge.base.product</field>
+            <field name="prefix">KB</field>
+            <field name="padding">5</field>
+         </record>
+
+    </data>
+
+</odoo>

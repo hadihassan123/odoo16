@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+    <record id="view_eng_domain" model="ir.ui.view">
+        <field name="name">eng.domain.form</field>
+        <field name="model">eng.domain</field>
+        <field name="arch" type="xml">
+
+            <form create="1" delete="1">
+
+                <sheet>
+
+                    <group>
+
+                        <group>
+                            <field name = "eng_name" />
+                            <field name = "eng_dept"/>
+                            <field name="eng_name_eng_dept" invisible="1"/>
+                        </group>
+
+
+
+                    </group>
+
+                </sheet>
+
+
+            </form>
+        </field>
+    </record>
+
+    <record id="view_eng_domain_tree" model="ir.ui.view">
+        <field name="name">eng.domain.tree</field>
+        <field name="model">eng.domain</field>
+        <field name="arch" type="xml">
+
+            <tree>
+                <field name="eng_name"/>
+                <field name = "eng_dept" />
+
+
+
+            </tree>
+        </field>
+    </record>
+
+
+    <data>
+
+            <record id="action_eng_domain" model="ir.actions.act_window">
+                <field name="name">Add Engineers</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">eng.domain</field>
+                <field name="view_mode">tree,form</field>
+
+
+            </record>
+
+            <menuitem id="menu_eng_domain"
+                      name="Add Engineer"
+                      parent="menu_config_details"
+                      action="action_eng_domain"
+                      sequence="35"/>
+
+    </data>
+
+</odoo>

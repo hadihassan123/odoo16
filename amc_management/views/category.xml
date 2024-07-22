@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+    <record id="view_amc_category" model="ir.ui.view">
+        <field name="name">amc.category.form</field>
+        <field name="model">amc.category</field>
+        <field name="arch" type="xml">
+
+            <form create="1" delete="0">
+
+                <sheet>
+
+                    <group>
+
+                        <group>
+                            <field name = "amc_category" />
+                            <field name = "comments"/>
+                        </group>
+
+
+
+                    </group>
+
+                </sheet>
+
+
+            </form>
+        </field>
+    </record>
+
+    <record id="view_amc_category_tree" model="ir.ui.view">
+        <field name="name">amc.category.tree</field>
+        <field name="model">amc.category</field>
+        <field name="arch" type="xml">
+
+            <tree>
+                <field name="amc_category" string="Category Name"/>
+                <field name = "comments" />
+
+
+
+            </tree>
+        </field>
+    </record>
+
+
+    <data>
+
+            <record id="action_amc_category" model="ir.actions.act_window">
+                <field name="name">Category</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">amc.category</field>
+                <field name="view_mode">tree,form</field>
+
+
+            </record>
+
+            <menuitem id="menu_amc_category"
+                      name="Add Category"
+                      parent="menu_config_details"
+                      action="action_amc_category"
+                      sequence="5
+"/>
+
+    </data>
+
+</odoo>

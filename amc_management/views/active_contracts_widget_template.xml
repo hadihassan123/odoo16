@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="active_contracts_widget">
+        <div class="active-contracts-widget">
+            <span class="value"><t t-esc="active_contracts_count"/></span>
+            <span class="label">Active Contracts</span>
+        </div>
+    </template>
+</odoo>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+    <data>
+
+        <record id="action_amc_only_customer" model="ir.actions.act_window">
+            <field name="name">AMC</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">amc.customers</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="context">{'default_con_type':'amc'}</field>
+            <field name="domain">[('con_type','=','amc')]</field>
+
+        </record>
+
+        <menuitem id="menu_amc_only_customer"
+                  name=" All AMC"
+                  parent="menu_all_contracts"
+                  action="action_amc_only_customer"
+                  sequence="20"/>
+
+    </data>
+
+</odoo>

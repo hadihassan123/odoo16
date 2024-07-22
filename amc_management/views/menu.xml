@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+
+        <menuitem id="menu_guarentee_root"
+                  name="AMC Contracts"
+                  sequence="10"/>
+
+        <menuitem id="menu_all_contracts"
+                  name="All Contracts"
+                  parent="menu_guarentee_root"
+                  sequence="20"/>
+
+        <menuitem id="menu_amc_details"
+                  name="Annual Maintenance Contracts "
+                  parent="menu_guarentee_root"
+                  sequence="20"/>
+        <menuitem id="menu_ticket_details"
+                  name="Tickets "
+                  parent="menu_guarentee_root"
+                  sequence="30"/>
+        <menuitem id="menu_sla_details"
+                  name="Sla Monitor Details"
+                  parent="menu_guarentee_root"
+                  sequence="30"/>
+        <menuitem id="menu_config_details"
+                  name = "Configuration"
+                  parent="menu_guarentee_root"
+                  sequence="40"/>
+        <menuitem id="menu_knowledge_base"
+                  name="Knowledge Base"
+                  parent="menu_guarentee_root"
+                  sequence="45"/>
+
+
+    </odoo>

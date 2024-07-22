@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cancel_ticket" model="ir.ui.view">
+        <field name="name">cancel.ticket.wizard</field>
+        <field name="model">cancel.ticket.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="file_data" widget="binary" filename="filename"/>
+                </group>
+                <footer>
+                    <button name="action_cancel" string="Upload" type="object" class="btn-primary"
+                            data-hotkey="q"/>
+                    <button special="cancel" data-hotkey="z" string="Discard" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cancel_ticket" model="ir.actions.act_window">
+        <field name="name">Cancel Ticket</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cancel.ticket.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

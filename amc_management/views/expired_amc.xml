@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+    <data>
+
+        <record id="action_amc_expired_customer" model="ir.actions.act_window">
+            <field name="name">Expired AMC</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">amc.customers</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('duration', '=',0 )]</field>
+        </record>
+
+        <menuitem id="menu_amc_expired_customer"
+                  name="Expired AMCs"
+                  parent="menu_amc_details"
+                  action="action_amc_expired_customer"
+                  sequence="20"/>
+
+    </data>
+
+</odoo>

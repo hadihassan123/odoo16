@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_assigned_tickets_tree" model="ir.ui.view">
+            <field name="name">assigned.tickets.tree</field>
+            <field name="model">maintenance.customers</field>
+            <field name="inherit_id" ref="amc_management.view_maintenance_customer_tree"/>
+<!--            <field name="mode">primary</field>-->
+             <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="create">True</attribute>
+                    <attribute name="delete">True</attribute>
+                </xpath>
+            </field>
+    </record>
+
+    <record id="view_maintenance_customer" model="ir.ui.view">
+        <field name="name">maintenance.customer.form</field>
+        <field name="model">maintenance.customers</field>
+        <field name="arch" type="xml">
+            <form options="{'no_create': True, 'no_edit': True}">
+                <header>
+                    <button name="action_open" type="object" string="Open" states="not live" class="oe_highlight" />
+                    <button name="action_done" type="object" confirm="Issue solved successfully?" string="Done" states="test" icon="fa-check"/>
+                    <button name="action_cancel" type="object" confirm="Are you sure?" string="Cancel" states="assigned,waiting for customer,waiting for vendor,work in progress" icon="fa-times"/>
+                    <button name="action_work_in_progress" type="object" string="WIP" states="assigned,waiting for vendor,waiting for customer,reopen" icon="fa-spinner"/>
+                    <button name="action_waiting_for_customer" type="object" string="WFC" states="work in progress" icon="fa-user"/>
+                    <button name="action_waiting_for_vendor" type="object" string="WFV" states="work in progress" icon="fa-truck"/>
+                    <button name="action_resolved" type="object" confirm="Issue Solved Successfully?" string="Resolved" states="waiting for customer,work in progress" icon="fa-check-circle"/>
+                    <button name="action_reopen" type="object" confirm="Are you Sure?" string="Re-Open" states="resolved" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="open,assigned,work in progress,waiting for customer,waiting for vendor,resolved"/>
+                </header>
+<!--                <header>-->
+<!--                    <button name="%(amc_management.action_amc_only_customer)d" confirm="Are you sure to open AMC'S" type="action" string="Open AMC's" icon="fa-folder"/>-->
+<!--                </header>-->
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="ref" readonly="1"/>
+                        </h1>
+                    </div>
+                    <notebook>
+
+                        <page string="Asset Details" name="details" invisible="1">
+                            <field name="product_ids">
+                                <tree>
+                                    <field name="product_id"/>
+                                    <field name="internal_reference"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Ticket Details" name="Ticket Details">
+                           <group>
+                                <group string="Contract Details">
+                                    <field name="start_date" readonly="1" attrs="{'invisible':[('status','=','expired')]}"/>
+                                    <field name="service_type" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                                    <field name="partner_id" options="{'no_create': True}"
+                                      attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                                    <field name="order_id" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                                    <field name="contract_name" />
+                                    <field name="name_seq"  string="AMC No" invisible="0"/>
+                                </group>
+                                <group string="Ticket Details">
+
+                                    <field name="cont_type" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}" invisible="1"/>
+                                    <field name="ticket_type" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                                    <field name="mode_ticket" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                                    <field name="impact_type" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                                    <field name="urgency" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+
+                                    <field name="amc_age" invisible="1"/>
+                                    <field name="end_Date" invisible="1"/>
+                                    <field name="escalation_email_sent" invisible="1"/>
+                                    <field name="second_escalation_email_sent" invisible="1"/>
+                                    <field name="cancellation_source" attrs="{'readonly': [('state', '!=', 'open')]}"
+                                        invisible="1"/>
+                                </group>
+                           </group>
+                           <group>
+                               <group string="Device Details">
+
+                                    <field name="status" widget="statusbar" invisible="1" statusbar_visible="status"
+                                    class="oe_highlight" options="{'red': [('status', '=', 'expired')]}"/>
+                                    <field name="amc_category_id" string="Category"
+                                    attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                                    <field name="category_type" invisible="1"/>
+                                    <field name="cat_test" invisible="1"/>
+                                    <field name="category_id" invisible="1"/>
+                                    <field name="domain_id" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                                    <field name="device_type_id" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                               </group>
+                                <group string="SLA Matrix">
+
+                                    <field name="priority" invisible="1"/>
+                                    <field name="sla"/>
+                                    <field name="sla_days" string="Priority"/>
+                                    <field name="state" states="open,assigned,done,cancel" readonly="1"/>
+                                    <field name="pro_id" invisible="1"/>
+                                </group>
+                           </group>
+                            <group>
+                                <group string = "Asset Details">
+                                    <field name="ass_id" domain="[('asset_upload_id', '=', order_id)]"
+                                       attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                                     <field name="emp_ids" widget="many2many_tags" states="assigned,work in progress,waiting for customer,waiting for vendor,resolved,done,can  cel" readonly="1"/>
+                                </group>
+                            <group string="">
+                                <field name="cancellation_source" states="cancel" readonly="1" invisible="1"/>
+                                <field name="site_location" style="display: inline-block; width: 300px;" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Problem Description">
+                                <field name="subject_des" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                                <field name="description" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+
+<!--                           <field name="site_location"  attrs="{'readonly': [('state', '=', 'done')]}"/>-->
+<!--                            <field name="site_location" attrs="{'nolabel': True}" string="Is Site location Different From Customer Address?"/>-->
+                            </group>
+                            <group string="">
+
+                                <field name="Site_number" attrs="{'invisible':[('site_location','=',False)]}"/>
+                                <field name="Site_name" attrs="{'invisible':[('site_location','=',False)]}"/>
+                                <field name="active" invisible="1"/>
+                            </group>
+
+                        </group>
+                        </page>
+                        <page string="SLA Monitor" name="SLA">
+                            <field name="monitor_sla_id" invisible="1"/>
+                            <field name="sla_monitor_ids" domain="[('ref','=',ref)]">
+                                <tree create="0" delete="0">
+                                    <field name="old_state" invisible="1"/>
+                                    <field name="new_state" string="State" optional="show or hide"/>
+                                    <field name="timestamp" optional="show or hide"/>
+                                    <field name="key_duration"/>
+                                    <field name="state_durations" optional="show"/>
+                                    <field name="total_duration" string="Total Duration(SS:MM:HH)" optional="show"/>
+                                    <field name="ref" invisible="1"/>
+                                    <field name="sla_monitor_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Assign Ticket" name="assign_ticket">
+                            <group>
+                                <field name="eng_name_id" widget="many2many_tags" attrs="{'readonly': [('state', 'not in', ['open' ])]}" />
+                                <field name="state" readonly="1" attrs="{'readonly': [('state', 'not in', ['open' ])]}"/>
+<!--                                <field name="emp_ids" widget="many2many_tags" attrs="{'readonly': [('state', 'not in', ['open' ])]}"/>-->
+                                <field name="assigned_remarks" attrs="{'invisible': [('state', '!=', 'assigned')]}"/>
+<!--                                <field name="rem" attrs="{'readonly': [('state', 'not in', ['open' ])]}"/>-->
+                            </group>
+                            <button name="action_assigned" type="object" string="Assign" widget="statusbar"  states="open,reopen" icon="fa-user-plus"/>
+                        </page>
+                         <page string="Remarks">
+                             <group>
+
+                                <field name="open_remarks" attrs="{'invisible': [('state', '!=', 'open')]}"/>
+<!--                                <field name="not_live_remarks" attrs="{'invisible': [('state', '!=', 'not live')]}"/>-->
+                                <field name="resolved_remarks" attrs="{'invisible': [('state', '!=', 'resolved')]}"/>
+                                <field name="waiting_for_customer_remarks" attrs="{'invisible': [('state', '!=', 'waiting for customer')]}"/>
+                                <field name="waiting_for_vendor_remarks" attrs="{'invisible': [('state', '!=', 'waiting for vendor')]}"/>
+                                <field name="work_in_progress_remarks" attrs="{'invisible': [('state', '!=', 'work in progress')]}"/>
+
+
+
+                            </group>
+
+
+                        </page>
+                        <page string="State logs">
+                            <group>
+<!--                                <field name="subject_des" readonly="1" attrs="{'invisible': [('state', '!=', 'resolved')]}"/>-->
+                                <field name="selected_state" attrs="{'invisible': [('state', '!=', 'resolved')]}"/>
+                                <field name="selected_remarks" attrs="{'invisible': [('state', '!=', 'resolved')]}"/>
+
+                            </group>
+                            <group>
+
+                            </group>
+                        </page>
+                         <page string="Resolution">
+                            <group>
+                                <field name="subject_des" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}" />
+                                <field name="resolution"/>
+
+
+                            </group>
+                            <group>
+
+                            </group>
+                              <div class="o_horizontal_buttons">
+                                    <button name="action_knowledge" type="object" string="Add to FAQ's"
+                                            states="resolved" class="btn-primary"/>
+                              </div>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+<!--    <record id="view_maintenance_customer" model="ir.ui.view">-->
+<!--        <field name="name">maintenance.customer.form</field>-->
+<!--        <field name="model">maintenance.customers</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form options="{'no_create': True, 'no_edit': True}">-->
+<!--                <header>-->
+<!--                    <button name="action_open" type="object" string="Open" states="not live"/>-->
+<!--                    <button name="action_done"  type="object" confirm="Issue solved successfully?" string="Done" states="test"/>-->
+<!--                    <button name="action_cancel" type="object" confirm="Are you sure?" string="cancel" states="resolved"/>-->
+<!--                    <button name="action_work_in_progress" type="object" string="WIP" states="assigned,waiting for vendor,waiting for customer"/>-->
+<!--                    <button name="action_waiting_for_customer" type="object" string="WFC" states="work in progress"/>-->
+<!--                    <button name="action_waiting_for_vendor" type="object" string="WFV" states="work in progress"/>-->
+<!--                    <button name="action_resolved" type="object" confirm="Issue solved successfully?" string="Resolved" states="waiting for customer,work in progress"/>-->
+<!--&lt;!&ndash;                    <button name="action_cancel" type="object" string="cancel" states="open"/>&ndash;&gt;&ndash;&gt;-->
+<!--                    <field name="state" widget="statusbar" statusbar_visible="open,assigned,work in progress,waiting for customer,waiting for vendor,resolved"/>-->
+<!--                </header>-->
+<!--                <header>-->
+<!--                    <button name="%(amc_management.action_amc_only_customer)d"-->
+<!--                            confirm="Are you sure to open AMC'S" type="action" string="Open AMC's"/>-->
+<!--                </header>-->
+<!--                <sheet>-->
+<!--                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"-->
+<!--                            attrs="{'invisible': [('active', '=', True)]}"/>-->
+<!--                    <div class="oe_title">-->
+<!--                        <hi>-->
+<!--                            <field name="ref" readonly="1"/>-->
+<!--                        </hi>-->
+<!--                    </div>-->
+<!--                    <group>-->
+<!--                                <group>-->
+
+<!--                                    <field name="start_date" readonly="1" attrs="{'invisible':[('status','=','expired')]}"/>-->
+<!--                                    <field name="service_type" attrs="{'readonly': [('state', '=', 'done')]}" />-->
+<!--                                    <field name="partner_id" options="{'no_create': True}" attrs="{'readonly': [('state', '=', 'done')]}" />-->
+<!--                                    <field name="order_id" attrs="{'readonly': [('state', '=', 'done')]}"/>-->
+<!--                                    <field name="contract_name" />-->
+<!--                                    <field name = "name_seq" />-->
+<!--                                    <field name="description" attrs="{'readonly': [('state', '=', 'done')]}"/>-->
+<!--                                    <field name="cont_type" attrs="{'readonly': [('state', '=', 'done')]}" invisible="1"/>-->
+<!--                                    <field name="ticket_type" attrs="{'readonly': [('state', '=', 'done')]}"/>-->
+<!--                                    <field name="mode_ticket" attrs="{'readonly': [('state', '=', 'done')]}"/>-->
+<!--                                    <field name="impact_type" attrs="{'readonly': [('state', '=', 'done')]}"/>-->
+<!--                                    <field name="urgency" attrs="{'readonly': [('state', '=', 'done')]}"/>-->
+<!--                                    <field name="amc_age" invisible="1"/>-->
+<!--                                    <field name="site_location" attrs="{'readonly': [('state', '=', 'done')]}"/>-->
+
+<!--                                    <field name="end_Date" invisible="1"/>-->
+<!--                                    <field name="escalation_email_sent" invisible="1"/>-->
+<!--                                    <field name="second_escalation_email_sent" invisible="1"/>-->
+<!--                                    <field name="cancellation_source" attrs="{'readonly': [('state', '=', 'done')]}" invisible="1"/>-->
+<!--                                </group>-->
+<!--                        <group>-->
+<!--                            <field name="status" widget="statusbar" statusbar_visible="status" class="oe_highlight" options="{'red': [('status', '=', 'expired')]}"/>-->
+<!--                            <field name="amc_category_id" string="Category" attrs="{'readonly': [('state', '=', 'done')]}"/>-->
+<!--                            <field name="category_type" invisible="1" />-->
+<!--                            <field name="cat_test" invisible="1"/>-->
+<!--                            <field name="category_id" invisible="1"/>-->
+<!--                            <field name="domain_id"/>-->
+<!--&lt;!&ndash;                            <field name="sub_cat" string="Sub Category" attrs="{'readonly': [('state', '=', 'done')]}"/>&ndash;&gt;-->
+<!--                            <field name="device_type" string="Brand Type" attrs="{'readonly': [('state', '=', 'done')]}" invisible="1"/>-->
+<!--                            <field name="device_type_id" attrs="{'readonly': [('state', '=', 'done')]}"/>-->
+<!--                            <field name ="priority" invisible="1" />-->
+<!--                            <field name="sla" />-->
+<!--                            <field name="sla_days"  string="Priority"/>-->
+<!--                            <field name ="state" states="open,assigned,done,cancel"  readonly="1" />-->
+<!--                            <field name="pro_id" invisible="1"/>-->
+<!--                            <field name="ass_id" domain="[('asset_upload_id', '=', order_id)]" attrs="{'readonly': [('state', '=', 'done')]}" />-->
+<!--                            <field name="cancellation_source" states="cancel" readonly="1" invisible="1"/>-->
+<!--                            <field name="emp_ids" widget="many2many_tags" states="assigned,done,cancel" readonly="1"/>-->
+<!--                            <field name="Site_number"  attrs="{'invisible':[('site_location','=',False)]}"/>-->
+<!--                            <field name="Site_name"  attrs="{'invisible':[('site_location','=',False)]}"/>-->
+<!--                            <field name="active" invisible="1"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                        </group>-->
+<!--                            <group>-->
+<!--                                <field name="Site_number"  attrs="{'invisible':[('site_location','=',False)]}" invisible="1"/>-->
+<!--                                <field name="Site_name"  attrs="{'invisible':[('site_location','=',False)]}" invisible="1"/>-->
+<!--                            </group>-->
+<!--                    </group>-->
+<!--                    <notebook>-->
+<!--                        <page string=" Asset Details" name="details" invisible="1">-->
+<!--                            <field name="product_ids" >-->
+<!--                                <tree>-->
+<!--                                    <field name="product_id" />-->
+<!--                                    <field name="internal_reference"/>-->
+
+<!--                                </tree>-->
+<!--                            </field>-->
+
+
+
+<!--                        </page>-->
+<!--                        <page string="Remarks" name="Remarks">-->
+<!--                            <form>-->
+<!--                                <group>-->
+<!--&lt;!&ndash;                                    <field name="average_time_to_close" widget="progressbar"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <field name="time_to_close" widget="progressbar"/>&ndash;&gt;-->
+<!--                                    <field name="comments" string="Remarks"/>-->
+<!--                                </group>-->
+
+<!--                            </form>-->
+
+<!--&lt;!&ndash;                            <field name="asset_service_ids" domain="[('asset_upload_id', '=', order_id)]">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <tree>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <field name="asset_name" />&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <field name="asset_tag"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <field name = "asset_upload_id"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </tree>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            </field>&ndash;&gt;-->
+
+<!--                        </page>-->
+<!--                        <page string="SLA" name="SLA">-->
+<!--                            <field name="monitor_sla_id" invisible="1"/>-->
+<!--                            <field name="sla_monitor_ids" domain="[('ref','=',ref)]">-->
+<!--                                <tree create="0" delete="0">-->
+<!--                                    <field name="old_state" invisible="1" />-->
+<!--                                    <field name="new_state" string="State" optional="show or hide" />-->
+<!--                                    <field name="timestamp" optional="show or hide"/>-->
+<!--                                    <field name="total_duration" optional="show"/>-->
+<!--&lt;!&ndash;                                    <field name="duration"/>&ndash;&gt;-->
+<!--                                    <field name="state_durations" optional="show "/>-->
+<!--&lt;!&ndash;                                    <field name="calendar_leave_id"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <field name="time_from"/>&ndash;&gt;-->
+<!--                                    <field name="ref" invisible="1"/>-->
+<!--                                    <field name = "sla_monitor_id" invisible="1"/>-->
+
+<!--                                </tree>-->
+
+<!--                            </field>-->
+
+<!--                        </page>-->
+<!--                        <page string="Assign Ticket" name="assign_ticket">-->
+<!--                            <form>-->
+<!--                                <group>-->
+<!--                                        <field name = "state" readonly="1"/>-->
+<!--                                        <field name = "emp_ids" widget="many2many_tags"  attrs="{'invisible':[('status','=','expired')]}"/>-->
+<!--                                        <field name = "rem"/>-->
+<!--                                </group>-->
+<!--                                <button name="action_assigned" type="object" string="Assign" widget="statusbar"   class="oe_highlight" states="open"/>-->
+<!--                            </form>-->
+<!--                        </page>-->
+
+<!--                    </notebook>-->
+<!--                </sheet>-->
+<!--                <div class="oe_chatter">-->
+<!--                    <field name="message_follower_ids"/>-->
+<!--                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>-->
+<!--                </div>-->
+
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+
+    <record id="view_maintenance_customer_tree" model="ir.ui.view">
+        <field name="name">maintenance.customer.tree</field>
+        <field name="model">maintenance.customers</field>
+        <field name="arch" type="xml">
+            <tree   create="1" delete="1" default_order="ref desc" decoration-danger="state == 'cancel'" decoration-success="state == 'done'">
+                <field name="ref"/>
+                <field name="partner_id"/>
+                <field name="order_id" string="SO Number" optional="no show"/>
+                <field name="name_seq" string="AMC Number"/>
+                <field name="service_type"/>
+                <field name="contract_name"/>
+                <field name="eng_name_id" widget="many2many_tags"/>
+                <field name="ticket_type"/>
+                <field name="mode_ticket"  invisible="1"/>
+                <field name="impact_type"  invisible="1"/>
+                <field name="category_type"  invisible="1"/>
+                <field name="sla"/>
+
+                <field name="sla_broken" widget="warning" options="{'no_open': True}" invisible="0"/>
+                <field name="priority" decoration-danger="priority == 'high'" decoration-warning="priority == 'low'" widget="badge" optional="show" on_change="1" modifiers="{&quot;readonly&quot;: true}" invisible="1"/>
+                <field name="state"  decoration-danger="state == 'cancel'" decoration-success="state == 'done'" decoration-info="state == 'assigned'" decoration-muted="state == 'open'" widget="badge" optional="show" search="[('state', '!=', 'not live')]" />
+                <field name="total_ticket_count" optional="no show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_maintenance_graph" model="ir.ui.view">
+        <field name="name">maintenance.customers.graph</field>
+        <field name="model">maintenance.customers</field>
+        <field name="arch" type="xml">
+            <graph string="maintenance graph" type="bar">
+                <field name="pro_id"/>
+            </graph>
+        </field>
+    </record>
+
+     <record id="view_asset_graph" model="ir.ui.view">
+        <field name="name">maintenance.asset.graph</field>
+        <field name="model">maintenance.customers</field>
+        <field name="arch" type="xml">
+            <graph string="maintenance graph" type="bar">
+                <field name="partner_id"/>
+            </graph>
+        </field>
+     </record>
+
+<!--    <record id="view_gauge" model="ir.ui.view">-->
+<!--        <field name="name">gauge.view</field>-->
+<!--        <field name="model">maintenance.customers</field>-->
+<!--        <field name="type">form</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Employee's Average Ticket Closure">-->
+<!--                <sheet>-->
+<!--                    <group>-->
+<!--                        <field name="average_time_to_close" widget="progressbar"/>-->
+<!--                    </group>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="view_maintenance_pivot" model="ir.ui.view">
+        <field name="name">maintenance.customers.pivot</field>
+        <field name="model">maintenance.customers</field>
+        <field name="arch" type="xml">
+            <pivot string="maintenance pivot"  >
+                <field name="emp_ids" type="row"/>
+                <field name ="state" type="column" context="{'group_by': 'state', 'default_state': 'open'}" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_maintenance_dashboard_id_tree" model="ir.ui.view">
+        <field name="name">maintenance.customers.dashboard.tree</field>
+        <field name="model">maintenance.customers</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance dashboard Customers" >
+                <field name="partner_id"/>
+                <field name="state" groups="base.group_user"/>
+            </tree>
+        </field>
+    </record>
+
+    <data>
+
+        <record id="action_maintenance_customer" model="ir.actions.act_window">
+            <field name="name">Tickets</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.customers</field>
+            <field name="view_mode">tree,form,graph,pivot</field>
+        </record>
+
+        <menuitem id="menu_maintenance_customer"
+                  name="All Tickets"
+                  parent="menu_ticket_details"
+                  action="action_maintenance_customer"
+                  sequence="20"/>
+
+    </data>
+
+</odoo>

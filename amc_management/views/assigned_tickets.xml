@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        <record id="view_assigned_tickets_tree" model="ir.ui.view">-->
+<!--            <field name="name">assigned.tickets.tree</field>-->
+<!--            <field name="model">maintenance.customers</field>-->
+<!--            <field name="inherit_id" ref="amc_management.view_maintenance_customer_assigned_tree"/>-->
+<!--            <field name="mode">primary</field>-->
+<!--             <field name="arch" type="xml">-->
+<!--                <xpath expr="//tree" position="attributes">-->
+<!--                    <attribute name="create">false</attribute>-->
+<!--                    <attribute name="delete">false</attribute>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+        <record id="view_maintenance_customer_assigned_tree" model="ir.ui.view">
+            <field name="name">maintenance.customer.assigned.tree</field>
+            <field name="model">maintenance.customers</field>
+            <field name="arch" type="xml">
+                <tree create="0" delete="0" default_order="ref desc" decoration-danger="state == 'cancel'"
+                      decoration-success="state == 'done'">
+                    <field name="ref"/>
+                    <field name="partner_id"/>
+                    <field name="order_id" string="SO Number"/>
+                    <field name="service_type"/>
+                    <field name="contract_name"/>
+                    <field name="emp_ids" widget="many2many_tags"/>
+                    <field name="ticket_type"/>
+                    <field name="mode_ticket" invisible="1"/>
+                    <field name="impact_type" invisible="1"/>
+                    <field name="category_type" invisible="1"/>
+                    <field name="sla"/>
+
+                    <field name="sla_broken" widget="warning" options="{'no_open': True}" invisible="0"/>
+                    <field name="priority" decoration-danger="priority == 'high'" decoration-warning="priority == 'low'"
+                           widget="badge" optional="show" on_change="1" modifiers="{&quot;readonly&quot;: true}"
+                           invisible="1"/>
+                    <field name="state" decoration-danger="state == 'cancel'" decoration-success="state == 'done'"
+                           decoration-info="state == 'assigned'" decoration-muted="state == 'open'" widget="badge"
+                           optional="show" search="[('state', '!=', 'not live')]"/>
+                    <field name="total_ticket_count" optional="no show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_assigned_tickets" model="ir.actions.act_window">
+            <field name="name">Assigned Tickets</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.customers</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="views" eval="[(ref('view_assigned_tickets_tree'), 'tree')]"/>-->
+            <field name="context">{'default_state':'assigned'}</field>
+            <field name="domain">[('state','=','assigned')]</field>
+        </record>
+
+        <menuitem id="menu_assigned_tickets"
+                  name="Assigned tickets"
+                  parent="menu_ticket_details"
+                  action="action_assigned_tickets"
+                  sequence="20"/>
+
+    </data>
+</odoo>
