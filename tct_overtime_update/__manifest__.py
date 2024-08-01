@@ -49,7 +49,7 @@
         'security/ir.model.access.csv',
     ],
     'demo': ['data/e_hr_overtime_demo.xml'],
-    'images': ['static/description/pngwing.com.png.png'],
+    'images': ['static/description/banner.png'],
     'license': 'OPL-1',
     'installable': True,
     'auto_install': False,
