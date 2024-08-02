@@ -49,7 +49,7 @@
         'security/ir.model.access.csv',
     ],
     'demo': ['data/e_hr_overtime_demo.xml'],
-    'images': ['static/description/banner.png'],
+    'images': ['static/description/hiclipart.com(1).png'],
     'license': 'OPL-1',
     'installable': True,
     'auto_install': False,
