@@ -62,7 +62,7 @@
             'amc_management/static/src/css/custom_styles.css',
         ],
 
-    'images': ['static/description/pngwing.com(1).png'],
+    'images': ['static/description/ong.png'],
     'license': 'OPL-1',   
     'installable': True,
     'auto_install': False,
