@@ -2,6 +2,7 @@
     'name': 'AMC Management',
     'author' : 'Abdulhadi',
     'website' : 'https://tctenterprise.com/',
+    'version': '16.0.1.0.0',
     'category' : 'Amc',
     'summary' : 'An Annual Maintenance Contract (AMC) is a type of service agreement that provides ongoing maintenance and support for a specific equipment or asset. It is typically used to ensure that the equipment or asset is kept in good working order and is regularly serviced and inspected.',
     'depends' : ['mail','sale_management','hr','sale','maintenance','board','base','web','website_slides'],
@@ -61,7 +62,8 @@
             'amc_management/static/src/css/custom_styles.css',
         ],
 
-    'images': ['static/description/system-operation-and-maintenance-512.png'],
+    'images': ['static/description/ong.png'],
+    'license': 'OPL-1',   
     'installable': True,
     'auto_install': False,
     'application': True,
