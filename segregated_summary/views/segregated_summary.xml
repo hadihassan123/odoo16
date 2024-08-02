@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_inherit_segregated_summary" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.segregated.summary</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Sale Order Summary" name="segregated_summary">
+                    <group>
+                        <group string="Products">
+                            <field name="storable_product_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="storable_product_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="storable_product_margin" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <group string="Services">
+                            <field name="service_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="service_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="service_margin" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Total">
+                            <field name="amount_untaxed" string="Total Price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="total_cost" string="Total Cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="total_margin" string="Total Margin" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>
