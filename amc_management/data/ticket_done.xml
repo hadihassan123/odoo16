@@ -69,7 +69,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td>AMC Number:</td>
-                                                                    <td><p t-field="object.order_id.name_seq"/></td>
+                                                                    <td><p t-field="object.order_id.name"/></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Requester Name:</td>

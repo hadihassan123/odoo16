@@ -58,8 +58,8 @@
                                     <field name="partner_id" options="{'no_create': True}"
                                       attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
                                     <field name="order_id" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
-                                    <field name="contract_name" />
-                                    <field name="name_seq"  string="AMC No" invisible="0"/>
+                                    <field name="contract_name" attrs="{'readonly': [('state', 'not in', ['open', 'not live'])]}"/>
+                                    <field name="name_seq" invisible="0"/>
                                 </group>
                                 <group string="Ticket Details">
 
@@ -368,8 +368,7 @@
             <tree   create="1" delete="1" default_order="ref desc" decoration-danger="state == 'cancel'" decoration-success="state == 'done'">
                 <field name="ref"/>
                 <field name="partner_id"/>
-                <field name="order_id" string="SO Number" optional="no show"/>
-                <field name="name_seq" string="AMC Number"/>
+                <field name="order_id" string="SO Number"/>
                 <field name="service_type"/>
                 <field name="contract_name"/>
                 <field name="eng_name_id" widget="many2many_tags"/>

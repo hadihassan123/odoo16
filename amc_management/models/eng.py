@@ -18,4 +18,3 @@ class Eng(models.Model):
 
     eng_name_eng_dept = fields.Char(compute='_compute_eng_name_eng_dept', string="Name & Department", store=True)
 
-

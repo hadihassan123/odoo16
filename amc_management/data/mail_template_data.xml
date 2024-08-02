@@ -61,11 +61,11 @@
                                                             Please check and confirm your AMC details:
                                                             <br/>
                                                             <br/>
-                                                            Contract Name: <t t-out="object.contract_test"/>
+                                                            Contract name: <t t-out="object.contract_test"/>
                                                             <br/>
-                                                            Contract Number:<t t-out="object.name_seq"/>
+                                                            AMC Number : <t t-out="object.name_seq"/>
                                                             <br/>
-                                                            Reference Number: <t t-out="object.name"></t>
+                                                            Reference number: <t t-out="object.name"></t>
                                                             <br/>
                                                             <br/>
                                                             Please find the Contract information PDF with this email.

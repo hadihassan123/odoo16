@@ -65,7 +65,7 @@
                 <field name="name">FAQ</field>
                 <field name="type">ir.actions.act_window</field>
                 <field name="res_model">maintenance.knowledge.base</field>
-                <field name="view_mode">tree,form</field>
+                <field name="view_mode">form</field>
                 <field name="help" type="html">
                     <p class="o_view_nocontent_smiling_face">
                         Create your first Knowledge Base Entry

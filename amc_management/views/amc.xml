@@ -192,7 +192,7 @@
                                     <field name = "asset_upload_id"/>
 
                                 </tree>
-                                 <form>
+                                <form>
                                     <group>
                                         <field name="asset_name"/>
                                         <field name="asset_tag"/>
@@ -203,7 +203,8 @@
                                         <field name="asset_upload_id"/>
 
                                     </group>
-                                 </form>
+                                </form>
+
                             </field>
                                 <button name="action_cancel"  type="object" string="Upload" />
                                 <button name="export_related_assets" type="object" string="Export Assets"/>

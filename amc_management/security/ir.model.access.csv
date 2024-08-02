@@ -15,4 +15,3 @@ access.maintenance.knowledge.base.product,access_maintenance_knowledge_base_prod
 access.eng.domain,access_eng_domain,amc_management.model_eng_domain,base.group_user,1,1,1,1
 access_purchase_order_product_summary,purchase.order.product.summary access rule,model_purchase_order_product_summary,purchase.group_purchase_user,1,1,1,1
 access_purchase_order_product_summary_lines,purchase.order.product.summary.lines access rule,purchase.model_purchase_order,purchase.group_purchase_user,1,1,1,1
-access_product_price_log,access.product.price.log,model_product_price_log,base.group_user,1,1,1,1

@@ -21,9 +21,8 @@
         'data/first_escalation.xml',
         'data/helpdesk_template.xml',
         'data/mail_template_data.xml',
-        'data/product_price_template.xml',
         'views/menu.xml',
-        # 'views/sales_dashboard.xml',
+        # 'views/dashboard.xml',
         'views/amc.xml',
         # 'views/contracts.xml',
         'views/onlyamc.xml',
@@ -41,7 +40,7 @@
         'views/sla_monitor.xml',
         'views/upload_asset.xml',
         'views/passfields.xml',
-        'views/knowledge_base_product.xml',
+        # 'views/knowledge_base_product.xml',
         'views/domain.xml',
         'views/brand.xml',
         'views/category.xml',
@@ -49,13 +48,8 @@
         'views/eng.xml',
         'views/product_summary.xml',
         'views/sale_summary.xml',
-        # 'views/view_order_form.xml',
-        'views/compensatory_off.xml',
-        # 'views/product_log.xml',
-        'views/product_log_price.xml',
-        'views/hr_leave_defaults.xml',
+
         # 'views/css.xml',
-        # 'views/hr_leave_type_views.xml',
         'report/amc_template.xml',
         'report/report.xml',
 
@@ -65,11 +59,12 @@
     'assets': {
         'web.assets_backend': [
             'amc_management/static/src/css/custom_styles.css',
-            # 'amc_management/static/src/components/**/*.js',
-            # 'amc_management/static/src/components/**/*.xml',
-            # 'amc_management/static/src/components/**/*.scss'
         ],
 
+    'images': ['static/description/system-operation-and-maintenance-512.png'],
+    'installable': True,
+    'auto_install': False,
+    'application': True,
     },
 
 

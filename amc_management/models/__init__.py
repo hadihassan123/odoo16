@@ -11,6 +11,3 @@ from . import knowledge_base_product
 from . import eng
 from . import sales_purchase
 from . import product_summary
-from . import compensatory_off
-from . import product_log
-from . import product_price_log

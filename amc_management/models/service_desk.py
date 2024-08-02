@@ -135,9 +135,8 @@ class customers(models.Model):
     selected_remarks = fields.Text(string="Selected State Remarks", compute='_compute_selected_remarks')
 
     total_ticket_count = fields.Integer(string="Total Ticket Count", compute='_compute_total_ticket_count', store=True)
-    resolution = fields.Text(string="Resolution")
-    eng_name_id = fields.Many2many('eng.domain',string='Engineer')
-
+    resolution = fields.Text(string="Resolution" )
+    eng_name_id = fields.Many2many('eng.domain', string='Engineer')
 
     @api.depends('order_id.maintenance_customer_id')
     def _compute_total_ticket_count(self):

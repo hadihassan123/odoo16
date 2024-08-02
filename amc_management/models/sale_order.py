@@ -21,7 +21,7 @@ class SaleOrder(models.Model):
     @api.onchange('amc_included')
     def _onchange_amc_included(self):
         if self.amc_included:
-            amc_product = self.env['product.product'].browse(44)  # Assuming 31 is the product ID for AMC
+            amc_product = self.env['product.product'].browse(42)  # Assuming 31 is the product ID for AMC
             if amc_product:
                 self.order_line = [(0, 0, {
                     'product_id': amc_product.id,
