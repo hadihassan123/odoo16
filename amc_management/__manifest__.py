@@ -62,6 +62,7 @@
         ],
 
     'images': ['static/description/system-operation-and-maintenance-512.png'],
+    'license': 'OPL-1',   
     'installable': True,
     'auto_install': False,
     'application': True,
