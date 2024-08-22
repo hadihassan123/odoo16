@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_purchase_order_product_summary,purchase.order.product.summary access rule,model_purchase_order_product_summary,purchase.group_purchase_user,1,1,1,1
-access_purchase_order_product_summary_lines,purchase.order.product.summary.lines access rule,purchase.model_purchase_order,purchase.group_purchase_user,1,1,1,1
