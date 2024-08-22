@@ -6,7 +6,7 @@
     'summary' : 'Sales Price Update from Purchase Module.',
     'depends' : ['mail','sale_management','hr','sale','maintenance','base',],
     'data' : [
-        # 'security/ir.models.access.csv',
+        'security/ir.models.access.csv',
         'data/product_price_template.xml',
         'views/product_summary.xml',
         'views/sale_summary.xml',
